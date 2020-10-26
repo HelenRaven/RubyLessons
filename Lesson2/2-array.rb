@@ -1,13 +1,5 @@
 # Заполнить массив числавми от 10 до 100 с шагом 5
 
-my_array = []
-
-i = 10
-
-while i <= 100 do
-  my_array << i
-  i += 5
-end
+my_array = (10..100).step(5).to_a
 
 puts my_array
-

@@ -16,9 +16,4 @@ months = {
   december: 31
 }
 
-months.each do |key, value|
-  if value == 30
-    puts key
-  end
-end
-
+months.each {|key, value| puts key if value == 30 }

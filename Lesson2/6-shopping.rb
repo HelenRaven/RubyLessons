@@ -6,9 +6,7 @@ loop do
   puts "Введите название товара (для завершения введите 'стоп'):"
   name = gets.chomp
 
-  if name == "стоп"
-    break
-  end
+  break if name == "стоп"
 
   puts "Введите количество товара:"
   amount = gets.to_f
@@ -41,4 +39,3 @@ purchases.each do |key, value|
 end
 
 puts "Общая сумма покупок: #{final}"
-
