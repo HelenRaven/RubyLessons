@@ -1,6 +1,6 @@
 
 name = ""
-purchases = Hash.new
+purchases = {}
 
 loop do
   puts "Введите название товара (для завершения введите 'стоп'):"
