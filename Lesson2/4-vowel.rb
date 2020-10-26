@@ -7,10 +7,11 @@ vowel_hash = Hash.new
 i = 1
 
 for letter in 'а'..'я'
-	if vowel_arr.include? letter
-		vowel_hash[letter] = i
-	end
-	i += 1
+  if vowel_arr.include? letter
+    vowel_hash[letter] = i
+  end
+  i += 1
 end
 
 puts vowel_hash
+
