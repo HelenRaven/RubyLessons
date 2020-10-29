@@ -31,38 +31,40 @@ class Train
     @route = route
     @station = route.stations[0]
     @station.arrive_train(self)
-    @next_station = self.next_station(@station)
-    @prev_station = self.prev_station(@station)
   end
 
-  def next_station(station)
-    i = @route.stations.index(station)
+  def current_station_index
+    @route.stations.index(station)
+  end
+
+  def next_station
+    i = self.current_station_index
     (@route.is_ring && i == @route.stations.size - 1) ? @route.stations[0] : @route.stations[i + 1]
   end
 
-  def prev_station(station)
-    i = @route.stations.index(station)
+  def prev_station
+    i = self.current_station_index
     (!@route.is_ring && i == 0) ? nil : @route.stations[i - 1]
   end
 
   def go_forward
-    i = @route.stations.index(@station)
+    i = self.current_station_index
     if i < @route.stations.size - 1 || (@route.is_ring && @route.stations.size != 1)
       @station.departure_train(self)
-      @station = self.next_station(@station)
-      @next_station = self.next_station(@station)
-      @prev_station = self.prev_station(@station)
+      @station = self.next_station
+      @next_station = self.next_station
+      @prev_station = self.prev_station
       @station.arrive_train(self)
     end
   end
 
   def go_back
-    i = @route.stations.index(@station)
+    i = self.current_station_index
     if i != 0 || (@route.is_ring && @route.stations.size != 1)
       @station.departure_train(self)
-      @station = self.prev_station(@station)
-      @next_station = self.next_station(@station)
-      @prev_station = self.prev_station(@station)
+      @station = self.prev_station
+      @next_station = self.next_station
+      @prev_station = self.prev_station
       @station.arrive_train(self)
    end
   end
