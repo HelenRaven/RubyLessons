@@ -34,7 +34,7 @@ class Train
   end
 
   def current_station_index
-    @route.stations.index(station)
+    @route.stations.index(@station)
   end
 
   def next_station
