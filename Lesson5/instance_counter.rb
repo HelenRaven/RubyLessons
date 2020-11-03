@@ -7,29 +7,17 @@ module InstanceCounter
 
   module ClassMethods
 
-    def zeroize_instances
-      self.all_instances = 0
-    end
-
-    def increase_instances
-      self.all_instances += 1
-    end
-
-    def instances
-      self.all_instances
-    end
-
-    protected
-    attr_accessor :all_instances
+    attr_accessor :instances
 
   end
 
   module InstanceMethods
 
     protected
+
     def register_instance
-      self.class.zeroize_instances if self.class.instances == nil
-      self.class.increase_instances
+      self.class.instances ||= 0
+      self.class.instances += 1
     end
 
   end

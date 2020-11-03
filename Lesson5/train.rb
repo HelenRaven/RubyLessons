@@ -6,23 +6,25 @@ class Train
   include ManufacturerName
   include InstanceCounter
 
-  @@trains =[]
+  @@trains = {}
 
 
   def self.find(number)
-    result = []
-    @@trains.each {|train| result << train if train.number == number}
-    result
+    @@trains[number]
   end
 
   attr_reader :speed, :station, :number, :wagons
 
   def initialize(number)
-    @number = number
-    @speed = 0
-    @wagons = []
-    @@trains << self
-    register_instance
+    if @@trains[number] == nil
+      @number = number
+      @speed = 0
+      @wagons = []
+      @@trains[number] = self
+      register_instance
+    else
+      puts "Train with this number already exists"
+    end
   end
 
 
