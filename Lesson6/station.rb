@@ -3,6 +3,7 @@ require_relative 'instance_counter'
 class Station
 
   include InstanceCounter
+  include Validation
 
   attr_reader :trains, :name
 
@@ -14,6 +15,7 @@ class Station
 
   def initialize(name)
     @name = name
+    raise "Station with name '#{name}' already exists!" unless @@stations[name].nil?
     validate!
     @trains = []
     @@stations[name] = self
@@ -42,7 +44,6 @@ class Station
   def validate!
     raise "Station's name should be String - type!" if name.class != String
     raise "Station's name can't be empty!" if name.empty?
-    raise "Station with name '#{name}' already exists!" unless @@stations[name].nil?
   end
 
 end

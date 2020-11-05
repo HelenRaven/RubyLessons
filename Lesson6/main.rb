@@ -51,12 +51,15 @@ def create_menu (railroad)
     case answer
       # создать станцию
       when 1
-        valid = false
-        while !valid do
+        begin
           print"Введите название станции:"
           name = gets.chomp
-          valid = railroad.make_station(name)
+          railroad.make_station(name)
+        rescue RuntimeError => e
+            puts e.message
+        retry
         end
+
       # создать маршрут
       when 2
         if railroad.stations.size != 0
@@ -76,23 +79,26 @@ def create_menu (railroad)
 
       # создать поезд
       when 3
-        valid = false
-        while !valid  do
+        begin
           print"Введите номер поезда: "
           number = gets.chomp
           print"Введите тип поезда (cargo/passenger): "
           type = gets.chomp.to_sym
-
-          valid = railroad.make_train(number, type)
-
+          railroad.make_train(number, type)
+          rescue RuntimeError => e
+            puts e.message
+          retry
         end
+
       # создать вагон
       when 4
-        valid = false
-        while !valid do
+        begin
           print"Введите тип вагона (cargo/passenger): "
           type = gets.chomp.to_sym
-          valid = railroad.make_wagon(type)
+          railroad.make_wagon(type)
+        rescue RuntimeError => e
+          puts e.message
+        retry
         end
       when 5
         menu_create

@@ -1,10 +1,12 @@
 require_relative 'manufacturer_name'
 require_relative 'instance_counter'
+require_relative 'validation'
 
 class Train
 
   include ManufacturerName
   include InstanceCounter
+  include Validation
 
   NUMBER_FORMAT = /^([a-zа-я]|\d){3}-?([a-zа-я]|\d){2}$/i
 
@@ -19,19 +21,13 @@ class Train
 
   def initialize(number)
     @number = number
+    raise "Train with number #{number} already exists!" if @@trains[number] != nil
     validate!
     @speed = 0
     @wagons = []
     @@trains[number] = self
     register_instance
    end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
-  end
 
   def pick_up_speed(volume)
     @speed += volume
@@ -132,7 +128,6 @@ class Train
   private
 
   def validate!
-    raise "Train with number #{number} already exists!" if @@trains[number] != nil
     raise "Wrong number format!" if number !~ NUMBER_FORMAT
   end
 

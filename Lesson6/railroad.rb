@@ -17,44 +17,28 @@ class RailRoad
 
   def make_station(name)
     @stations << Station.new(name)
-    true
-  rescue RuntimeError => e
-    puts e.message
-    false
   end
 
   def make_wagon(type)
     case type
     when :cargo
       @wagons << CargoWagon.new
-      true
     when :passenger
       @wagons << PassengerWagon.new
-      true
     else
-      puts "Undefined wagon type!"
-      false
+      raise "Undefined wagon type!"
     end
-  rescue RuntimeError => e
-    puts e.message
-    false
   end
 
   def make_train(number, type)
     case type
       when :cargo
         @trains << CargoTrain.new(number)
-        true
       when :passenger
         @trains << PassengerTrain.new(number)
-        true
       else
-        puts "Undefined train type!"
-        false
+        raise "Undefined train type!"
     end
-  rescue RuntimeError => e
-    puts e.message
-    false
   end
 
   def make_route(start,finish)

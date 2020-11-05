@@ -3,6 +3,7 @@ require_relative 'instance_counter'
 class Route
 
   include InstanceCounter
+  include Validation
 
   attr_reader :stations, :is_ring
 
