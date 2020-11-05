@@ -1,10 +1,10 @@
 module Validation
 
-	def valid?
-		validate!
-		true
-	rescue
-		false
-	end
+  def valid?
+    validate!
+    true
+  rescue
+    false
+  end
 
 end
