@@ -165,7 +165,8 @@ class Interface
     puts" 2 - добавить/отцепить вагоны к поезду."
     puts" 3 - установить маршрут поезда."
     puts" 4 - переместить поезд вперед/назад по маршруту."
-    puts" 5 - вывести меню."
+    puts" 5 - добавить/убрать из вагона."
+    puts" 6 - вывести меню."
     puts" 0 - вернуться в предыдущее меню."
   end
 
@@ -307,6 +308,37 @@ class Interface
     end
   end
 
+  def volume_to_wagon
+    wagon = choose_wagon
+
+    print "Бдем добавлять(1) или убирать (0) из вагона?"
+    answer = gets.to_i
+
+    case answer
+      when 0
+        case wagon.type
+        when :passenger
+          wagon.free_place
+        when :cargo
+          print "Введите объем, которы убираем:"
+          vol = gets.to_i
+          wagon.unload(vol)
+        end
+      when 1
+        case wagon.type
+        when :passenger
+          wagon.take_place
+        when :cargo
+          print "Введите объем, которые загружаем:"
+          vol = gets.to_i
+          wagon.upload(vol)
+        end
+    end
+
+    rescue RuntimeError => e
+        puts e.message
+    retry
+  end
 # Обработки меню ----------------------------------------------------------------------------------------
 
   def create_menu
@@ -343,11 +375,13 @@ class Interface
         when 4
           move_train
         when 5
+          volume_to_wagon
+        when 6
           print_menu_operations
         when 0
           break
       end
-      print"Введите следующую команду (5 - текущее меню, 0 - основное меню):"
+      print"Введите следующую команду (6 - текущее меню, 0 - основное меню):"
     end
   end
 
