@@ -20,10 +20,6 @@ class PassengerWagon < Wagon
     @occuped -= 1
   end
 
-  def available
-    @capacity - @occuped
-  end
-
   private
 
   def validate!

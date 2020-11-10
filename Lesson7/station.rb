@@ -1,11 +1,9 @@
 require_relative 'instance_counter'
-require_relative 'each'
 
 class Station
 
   include InstanceCounter
   include Validation
-  include Each
 
   attr_reader :trains, :name
 
@@ -36,9 +34,9 @@ class Station
     @trains.select{|train| train.type == type}
   end
 
-  #def each_inside(&block)
-  #  @trains.each.with_index(1) {|train, index| block.call(train, index)}
-  #end
+  def each_train(&block)
+    @trains.each.with_index(1){|train, index| yield(train, index)}
+  end
 
   private
 

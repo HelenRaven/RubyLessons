@@ -15,7 +15,6 @@ class Interface
     @trains = []
     @routs = []
     @wagons = []
-    #run
   end
 
 # Создание объектов и внесение их в массивы объектов -------------------------------------------
@@ -32,7 +31,7 @@ class Interface
   def make_wagon
     print"Введите тип вагона (cargo/passenger):"
     type = gets.chomp.to_sym
-    print "\n Введите вместимость вагона:"
+    print "Введите вместимость вагона:"
     capacity = gets.to_i
 
     case type
@@ -116,25 +115,25 @@ class Interface
     @wagons.each.with_index(1) {|wagon, index| puts "Wagon №#{index}: type = #{wagon.type}, capacity = #{wagon.capacity}, available = #{wagon.available}, attached to train: #{wagon.train_number}"}
   end
 
-  def wagons_inside(train)
-    train.each_inside(train.wagons) {|wagon, index| puts "Wagon №#{index}: type = #{wagon.type}, capacity = #{wagon.capacity}, available = #{wagon.available}, attached to train: #{wagon.train_number}"}
+  def wagons_in_train(train)
+    train.each_wagon {|wagon, index| puts "Wagon №#{index}: type = #{wagon.type}, capacity = #{wagon.capacity}, available = #{wagon.available}, attached to train: #{wagon.train_number}"}
   end
 
-  def trains_list(full)
+  def trains_list(full = false)
     @trains.each.with_index(1) do |train, index|
       puts "Train №#{index}: type = #{train.type}, number = #{train.number}, wagons attached = #{train.wagons.size}"
-      wagons_inside(train) if full
+      wagons_in_train(train) if full
     end
   end
 
-  def trains_inside(station)
-    station.each_inside(station.trains) {|train, index| puts "Train №#{index}: type = #{train.type}, number = #{train.number}, wagons attached = #{train.wagons.size}"}
+  def trains_in_station(station)
+    station.each_train {|train, index| puts "Train №#{index}: type = #{train.type}, number = #{train.number}, wagons attached = #{train.wagons.size}"}
   end
 
-  def stations_list(full)
+  def stations_list(full = false)
     @stations.each.with_index(1) do |station, index|
       puts "Station №#{index} - '#{station.name}'"
-      trains_inside(station) if full
+      trains_in_station(station) if full
     end
   end
 

@@ -1,15 +1,12 @@
 require_relative 'manufacturer_name'
 require_relative 'instance_counter'
 require_relative 'validation'
-require_relative 'each'
-
 
 class Train
 
   include ManufacturerName
   include InstanceCounter
   include Validation
-  include Each
 
   NUMBER_FORMAT = /^([a-zа-я]|\d){3}-?([a-zа-я]|\d){2}$/i
   MAX_SPEED = 250
@@ -25,6 +22,9 @@ class Train
 
   def initialize(number)
     @number = number.to_s
+    #по условиям предыдущего задания, нужно было сделать метод valid? (он в отдельном модуле), который проверяет уже существующие инстансы на валидность
+    #метод valid? использует внутри себя метод valid!, и если эту строку добавить в метод valid!, то ни один инстанс не пройдет валидацию, т.к. все хранятся в хэше @@trains
+    #пришлось вынести строку отдельно, она используется только здесь
     raise "Train with number #{number} already exists!" if @@trains[number] != nil
     validate!
     @speed = 0
@@ -125,9 +125,9 @@ class Train
     end
   end
 
-  #def each_inside(&block)
-  #  @wagons.each.with_index(1) {|wagon, index| block.call(wagon, index)}
-  #end
+  def each_wagon(&block)
+    @wagons.each.with_index(1){|wagon, index| yield(wagon, index)}
+  end
 
   private
 
