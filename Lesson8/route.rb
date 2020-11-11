@@ -12,7 +12,6 @@ class Route
     @ring = start == finish
     @stations = [start]
     @stations << finish unless @ring
-    validate!
     register_instance
   end
 
@@ -43,13 +42,5 @@ class Route
 
   def stations_to_delete?
     !empty_ring? || (!@ring && @stations.size > 2)
-  end
-
-  private
-
-  def validate!
-    unless stations.first.instance_of?(Station) || stations.last.instance_of?(Station)
-      raise 'Start & Finish must be Station objects!'
-    end
   end
 end
