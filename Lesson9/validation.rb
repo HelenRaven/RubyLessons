@@ -7,24 +7,18 @@ module Validation
   end
 
   module ClassMethods
-    def validate(attr_name, validation, *args)
-      var_name = '@valids'.to_sym
-      instance_variable_set(var_name, {}) unless instance_variable_get(var_name)
+    attr_reader :validations
 
-      if instance_variable_get(var_name)[attr_name]
-        instance_variable_get(var_name)[attr_name]["valid_#{validation}".to_sym] = args
-      else
-        instance_variable_get(var_name)[attr_name] = { "valid_#{validation}".to_sym => args }
-      end
+    def validate(attr_name, validation, *args)
+      @validations ||= []
+      @validations.push({ attr: attr_name, type: "valid_#{validation}".to_sym, options: args })
     end
   end
 
   module InstanceMethods
     def validate!
-      self.class.instance_variable_get('@valids'.to_sym).each do |attr_name, arg_hash|
-        arg_hash.each do |validation, args|
-          send(validation, "@#{attr_name}".to_sym, args[0])
-        end
+      self.class.validations.each do |valid_hash|
+        send(valid_hash[:type], "@#{valid_hash[:attr]}".to_sym, valid_hash[:options][0])
       end
     end
 

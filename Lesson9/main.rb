@@ -30,6 +30,7 @@ begin
   # t2 = Train.new(12345)
 
   # s1 = Station.new(123)
+  # s2 = Station.new('')
 rescue RuntimeError => e
   puts e.message
 end
